@@ -1,49 +1,56 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import FileUpload from '@/components/FileUpload';
-import AnalysisCards from '@/components/AnalysisCards';
-import ChartSection from '@/components/ChartSection';
-import DataTable from '@/components/DataTable';
-import { ProductData, AnalysisSummary } from '@/types';
-import { parseExcelFile } from '@/lib/excelParser';
-import { calculateAnalysisSummary } from '@/lib/analysisHelper';
+import { useState } from "react";
+import FileUpload from "@/components/FileUpload";
+import AnalysisCards from "@/components/AnalysisCards";
+import ChartSection from "@/components/ChartSection";
+import DataTable from "@/components/DataTable";
+import { ProductData, AnalysisSummary } from "@/types";
+import { parseExcelFile } from "@/lib/excelParser";
+import { calculateAnalysisSummary } from "@/lib/analysisHelper";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<ProductData[]>([]);
   const [monthColumns, setMonthColumns] = useState<string[]>([]);
-  const [forecastMonth, setForecastMonth] = useState<string>('');
+  const [forecastMonth, setForecastMonth] = useState<string>("");
   const [summary, setSummary] = useState<AnalysisSummary | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   const handleFileSelect = async (file: File) => {
     setLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
       // Parse Excel file
-      const { products: parsedData, monthColumns: months, forecastMonth: forecast } = await parseExcelFile(file);
-      
+      const {
+        products: parsedData,
+        monthColumns: months,
+        forecastMonth: forecast,
+      } = await parseExcelFile(file);
+
       if (parsedData.length === 0) {
-        throw new Error('File Excel tidak mengandung data yang valid');
+        throw new Error("File Excel tidak mengandung data yang valid");
       }
-      
+
       // Set data
       setProducts(parsedData);
       setMonthColumns(months);
       setForecastMonth(forecast);
-      
+
       // Calculate summary
       const analysisSummary = calculateAnalysisSummary(parsedData);
       setSummary(analysisSummary);
-      
     } catch (err) {
-      console.error('Error parsing file:', err);
-      setError(err instanceof Error ? err.message : 'Terjadi kesalahan saat memproses file');
+      console.error("Error parsing file:", err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Terjadi kesalahan saat memproses file"
+      );
       setProducts([]);
       setMonthColumns([]);
-      setForecastMonth('');
+      setForecastMonth("");
       setSummary(null);
     } finally {
       setLoading(false);
@@ -53,9 +60,9 @@ export default function Home() {
   const handleReset = () => {
     setProducts([]);
     setMonthColumns([]);
-    setForecastMonth('');
+    setForecastMonth("");
     setSummary(null);
-    setError('');
+    setError("");
   };
 
   return (
@@ -66,14 +73,15 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                📊 Sistem Forecasting Pembelian
+                Sistem Forecasting Pembelian
               </h1>
               <p className="text-gray-600 mt-1">
                 Analisis dan prediksi kebutuhan pembelian produk gudang
               </p>
               {forecastMonth && (
                 <p className="text-sm text-blue-600 font-medium mt-2">
-                  🎯 Target Forecast: <span className="font-bold">{forecastMonth}</span>
+                  Target Forecast:{" "}
+                  <span className="font-bold">{forecastMonth}</span>
                 </p>
               )}
             </div>
@@ -94,7 +102,7 @@ export default function Home() {
         {products.length === 0 ? (
           <div className="py-12">
             <FileUpload onFileSelect={handleFileSelect} loading={loading} />
-            
+
             {error && (
               <div className="mt-6 max-w-2xl mx-auto bg-red-50 border border-red-200 rounded-lg p-4">
                 <div className="flex items-start">
@@ -106,41 +114,52 @@ export default function Home() {
                 </div>
               </div>
             )}
-            
+
             {/* Instructions */}
             <div className="mt-12 max-w-4xl mx-auto">
               <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  🎯 Cara Menggunakan
+                  Cara Menggunakan
                 </h2>
                 <ol className="space-y-3 text-gray-700">
                   <li className="flex items-start">
                     <span className="font-bold text-blue-600 mr-3">1.</span>
-                    <span>Siapkan file Excel (.xlsx) dengan format sesuai template</span>
+                    <span>
+                      Siapkan file Excel (.xlsx) dengan format sesuai template
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="font-bold text-blue-600 mr-3">2.</span>
-                    <span>Upload file dengan drag & drop atau klik tombol pilih file</span>
+                    <span>
+                      Upload file dengan drag & drop atau klik tombol pilih file
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="font-bold text-blue-600 mr-3">3.</span>
-                    <span>Sistem akan otomatis menganalisis data dan menampilkan visualisasi</span>
+                    <span>
+                      Sistem akan otomatis menganalisis data dan menampilkan
+                      visualisasi
+                    </span>
                   </li>
                   <li className="flex items-start">
                     <span className="font-bold text-blue-600 mr-3">4.</span>
-                    <span>Review rekomendasi pembelian dan analisis risiko</span>
+                    <span>
+                      Review rekomendasi pembelian dan analisis risiko
+                    </span>
                   </li>
                 </ol>
-                
+
                 <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <p className="text-sm text-blue-800 mb-2">
-                    <strong>💡 Tip:</strong> File harus memiliki kolom standar seperti Nama Barang, 
-                    data penjualan per bulan, Total Qty Out, Stok Accurate, 
-                    Forecast, Rekomendasi Order, Status Gudang, dan Kategori Risiko.
+                    <strong>Tip:</strong> File harus memiliki kolom standar
+                    seperti Nama Barang, data penjualan per bulan, Total Qty
+                    Out, Stok Accurate, Forecast, Rekomendasi Order, Status
+                    Gudang, dan Kategori Risiko.
                   </p>
                   <p className="text-sm text-blue-800">
-                    <strong>📅 Kolom Bulan Dinamis:</strong> Sistem akan otomatis mendeteksi bulan apa saja 
-                    yang ada di file Excel Anda (misalnya Januari-November) dan menentukan bulan forecast 
+                    <strong>Kolom Bulan Dinamis:</strong> Sistem akan otomatis
+                    mendeteksi bulan apa saja yang ada di file Excel Anda
+                    (misalnya Januari-November) dan menentukan bulan forecast
                     (bulan berikutnya, misalnya Desember).
                   </p>
                 </div>
@@ -151,14 +170,14 @@ export default function Home() {
           <div className="space-y-8">
             {/* Summary Cards */}
             {summary && <AnalysisCards summary={summary} products={products} />}
-            
+
             {/* Charts */}
-            <ChartSection 
-              products={products} 
+            <ChartSection
+              products={products}
               monthColumns={monthColumns}
               forecastMonth={forecastMonth}
             />
-            
+
             {/* Data Table */}
             <DataTable products={products} />
           </div>
@@ -169,7 +188,7 @@ export default function Home() {
       <footer className="bg-white border-t border-gray-200 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-center text-gray-600 text-sm">
-            © 2025 Sistem Forecasting Pembelian. Built with Next.js & Recharts.
+            © 2025 Sistem Forecasting Pembelian (Interskala Case).
           </p>
         </div>
       </footer>

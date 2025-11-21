@@ -51,24 +51,6 @@ export const getProductsNeedingOrder = (products: ProductData[]) => {
   );
 };
 
-export const getMonthlyTrend = (
-  products: ProductData[],
-  monthColumns: string[]
-) => {
-  return monthColumns.map((month, index) => {
-    const total = products.reduce((sum, product) => {
-      // Cari nilai dari monthlyData berdasarkan nama bulan
-      const monthKey = Object.keys(product.monthlyData)[index];
-      return sum + (product.monthlyData[monthKey] || 0);
-    }, 0);
-
-    return {
-      month,
-      total,
-    };
-  });
-};
-
 export const getRiskDistribution = (products: ProductData[]) => {
   const distribution = {
     normal: 0,

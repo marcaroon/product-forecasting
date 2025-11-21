@@ -13,23 +13,10 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  ScatterChart,
-  Scatter,
-  ZAxis,
   ComposedChart,
-  Area,
 } from "recharts";
 import { ProductData } from "@/types";
-import {
-  getMonthlyTrend,
-  getRiskDistribution,
-  getTopProducts,
-} from "@/lib/analysisHelper";
+import { getRiskDistribution, getTopProducts } from "@/lib/analysisHelper";
 
 interface ChartSectionProps {
   products: ProductData[];
@@ -202,7 +189,7 @@ export default function ChartSection({
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-2xl font-bold mb-2">
-              🎯 Forecasting untuk Bulan {forecastMonth}
+              Forecasting untuk Bulan {forecastMonth}
             </h3>
             <p className="text-blue-100">
               Berdasarkan data penjualan dari {monthColumns[0]} -{" "}
@@ -221,7 +208,7 @@ export default function ChartSection({
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className="text-xl font-bold text-gray-900">
-              🔍 Filter Produk untuk Analisis Detail
+              Filter Produk untuk Analisis Detail
             </h3>
             <p className="text-sm text-gray-600 mt-1">
               Pilih hingga 5 produk untuk melihat trend dan analisis mendalam
@@ -296,7 +283,7 @@ export default function ChartSection({
       {/* Monthly Trend */}
       <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <h3 className="text-xl font-bold text-gray-900 mb-4">
-          📈 Trend Penjualan Bulanan
+          Trend Penjualan Bulanan
           {selectedProducts.length > 0 && (
             <span className="text-sm font-normal text-gray-600 ml-2">
               ({selectedProducts.length} produk dipilih)
@@ -339,8 +326,8 @@ export default function ChartSection({
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
             {selectedProducts.length > 0
-              ? "📊 Produk Terpilih"
-              : "🏆 Top 10 Produk Terlaris"}
+              ? "Produk Terpilih"
+              : "Top 10 Produk Terlaris"}
           </h3>
           <ResponsiveContainer width="100%" height={400}>
             <BarChart
@@ -367,7 +354,7 @@ export default function ChartSection({
         {/* Risk Distribution */}
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
-            ⚠️ Distribusi Kategori Risiko
+            Distribusi Kategori Risiko
           </h3>
           <ResponsiveContainer width="100%" height={400}>
             <PieChart>
@@ -397,7 +384,7 @@ export default function ChartSection({
       {/* Forecast vs Actual Comparison */}
       <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <h3 className="text-xl font-bold text-gray-900 mb-4">
-          📊 Perbandingan Forecast vs Stok Aktual
+          Perbandingan Forecast vs Stok Aktual
         </h3>
         <ResponsiveContainer width="100%" height={350}>
           <ComposedChart data={forecastVsActualData}>
@@ -424,7 +411,7 @@ export default function ChartSection({
         {/* Order Recommendation Analysis */}
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
-            📦 Analisis Rekomendasi Order
+            Analisis Rekomendasi Order
           </h3>
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={orderAnalysisData}>
@@ -445,7 +432,7 @@ export default function ChartSection({
         {/* Warehouse Capacity */}
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
-            🏭 Status Kapasitas Gudang
+            Status Kapasitas Gudang
           </h3>
           <ResponsiveContainer width="100%" height={350}>
             <PieChart>

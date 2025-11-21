@@ -40,7 +40,7 @@ export default function DataTable({ products }: DataTableProps) {
     <div className="bg-white rounded-lg shadow-md border border-gray-200">
       <div className="p-6 border-b border-gray-200">
         <h3 className="text-xl font-bold text-gray-900 mb-4">
-          📋 Detail Data Produk
+          Detail Data Produk
         </h3>
 
         <div className="flex flex-col md:flex-row gap-4">
